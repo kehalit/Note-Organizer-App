@@ -45,33 +45,6 @@ function addNote(){
     console.log("✅ Note added successfully!");
 }
 
-while (true) {
-    console.log(`
-============================
-📒 Note Organizer Menu
-1. Add a note
-2. List all notes
-3. Read a note
-4. Exit
-============================
-`);
-
-    const choice = readline.question("Enter your choice: ");
-
-    if (choice === '1') {
-        addNote();
-    } else if (choice === '2') {
-        listNotes();
-    } else if (choice === '3') {
-        readNote();
-    } else if (choice === '4') {
-        console.log("👋 Exiting...");
-        break;
-    } else {
-        console.log("❌ Invalid choice. Please try again.");
-    }
-}
-
 // list notes
 function listNotes() {
     const notes = loadNotes();
@@ -107,4 +80,53 @@ function readNote() {
     Body: ${note.body}
     Added on: ${note.time_added}
     `);
+}
+
+// delete a note 
+
+function deleteNote() {
+    const title = readline.question("Enter note title: ");
+    let notes = loadNotes();
+
+    const filteredNotes = notes.filter(note => note.title !== title);
+
+    if (filteredNotes.length === notes.length) {
+        console.log("❌ Note not found.");
+        return;
+    }
+
+    saveNotes(filteredNotes);
+    console.log("✅ Note deleted successfully!");
+}
+
+// menu
+while (true) {
+    console.log(`
+============================
+📒 Note Organizer Menu
+1. Add a note
+2. List all notes
+3. Read a note
+4. Delete a note
+5. Exit
+============================
+`);
+
+    const choice = readline.question("Enter your choice: ");
+
+    if (choice === '1') {
+        addNote();
+    } else if (choice === '2') {
+        listNotes();
+    } else if (choice === '3') {
+        readNote();
+    } else if (choice === '4'){
+        deleteNote();
+    }
+    else if (choice === '5') {
+        console.log("👋 Exiting...");
+        break;
+    } else {
+        console.log("❌ Invalid choice. Please try again.");
+    }
 }
