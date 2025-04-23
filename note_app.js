@@ -19,6 +19,7 @@ function saveNotes(notes) {
     fs.writeFileSync(NOTES_FILE, JSON.stringify(notes, null, 2));
 }
 
+//add note
 function addNote(){
     const title = readline.question("Enter note title: ");
     const body = readline.question("Enter note body: ");
@@ -50,7 +51,8 @@ while (true) {
 📒 Note Organizer Menu
 1. Add a note
 2. List all notes
-3. Exit
+3. Read a note
+4. Exit
 ============================
 `);
 
@@ -61,6 +63,8 @@ while (true) {
     } else if (choice === '2') {
         listNotes();
     } else if (choice === '3') {
+        readNote();
+    } else if (choice === '4') {
         console.log("👋 Exiting...");
         break;
     } else {
@@ -68,6 +72,7 @@ while (true) {
     }
 }
 
+// list notes
 function listNotes() {
     const notes = loadNotes();
 
@@ -83,4 +88,23 @@ ${index + 1}. Title: ${note.title}
    Added on: ${note.time_added}
         `);
     });
+}
+
+//read a note
+function readNote() {
+    const title = readline.question("Enter note title: ");
+    const notes = loadNotes();
+
+    const note = notes.find(note => note.title === title);
+
+    if (!note) {
+        console.log("❌ Note not found.");
+        return;
+    }
+
+    console.log(`
+    Title: ${note.title}
+    Body: ${note.body}
+    Added on: ${note.time_added}
+    `);
 }
